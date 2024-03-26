@@ -1,15 +1,15 @@
 database:
   hostname: localhost
   port: 5432
-  dbname: ***REMOVED***
-  user: username
+  dbname: db
+  user: user
   password: password
 
 rabbitmq:
-  hostname: ***REMOVED***
-  port: 31052
-  user: ***REMOVED***
-  password: ***REMOVED***
-  queue: roomdata
+  hostname: localhost
+  port: 1234
+  user: user
+  password: password
+  queue: queue
 
 debug: false

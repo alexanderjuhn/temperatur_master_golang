@@ -34,7 +34,7 @@ func InsertRoom(roomName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt := "INSERT INTO ***REMOVED***.room (id, name) SELECT nextval('***REMOVED***.room_seq'), $1 FROM ***REMOVED***.room WHERE NOT EXISTS (SELECT 1 FROM ***REMOVED***.room WHERE name=$2) limit 1"
+	stmt := "INSERT INTO statusdata.room (id, name) SELECT nextval('statusdata.room_seq'), $1 FROM statusdata.room WHERE NOT EXISTS (SELECT 1 FROM statusdata.room WHERE name=$2) limit 1"
 	_, e := tx.Exec(stmt, roomName, roomName)
 	CheckInsertError(e, tx)
 
@@ -49,7 +49,7 @@ func InsertRoomData(roomData RoomData) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt := "INSERT INTO ***REMOVED***.roomdata(id,room_id,temperature,humidity,datecreated,pressure) VALUES(nextval('***REMOVED***.roomdata_seq'),$1,$2,$3, now(), $4);"
+	stmt := "INSERT INTO statusdata.roomdata(id,room_id,temperature,humidity,datecreated,pressure) VALUES(nextval('statusdata.roomdata_seq'),$1,$2,$3, now(), $4);"
 	_, e := tx.Exec(stmt, roomData.RoomId, roomData.Temperatur, roomData.Humidity, roomData.Pressure)
 	CheckInsertError(e, tx)
 
@@ -62,7 +62,7 @@ func ReadRoom(roomName string) int {
 	if debug {
 		log.Printf("get id for room ", roomName)
 	}
-	rows, err := db.Query(`SELECT id FROM ***REMOVED***.room WHERE name = $1`, roomName)
+	rows, err := db.Query(`SELECT id FROM statusdata.room WHERE name = $1`, roomName)
 	CheckError(err)
 	defer rows.Close()
 	var roomId int
