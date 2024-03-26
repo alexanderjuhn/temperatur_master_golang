@@ -79,8 +79,6 @@ func CheckInsertError(err error, tx *sql.Tx) {
 	}
 }
 
-// Return open connection
-// If no connection is currently open then open a new connection
 func GetConnection() *sql.DB {
 	if db == nil {
 		ReadConfig()
