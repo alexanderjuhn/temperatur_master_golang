@@ -34,8 +34,8 @@ func InsertRoom(roomName string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	stmt := "INSERT INTO statusdata.room (id, name) SELECT nextval('statusdata.room_seq'), $1 FROM statusdata.room WHERE NOT EXISTS (SELECT 1 FROM statusdata.room WHERE name=$2) limit 1"
-	_, e := tx.Exec(stmt, roomName, roomName)
+	stmt := "INSERT INTO statusdata.room (id, name) values (nextval('statusdata.room_seq'), $1) ON CONFLICT DO NOTHING"
+	_, e := tx.Exec(stmt, roomName)
 	CheckInsertError(e, tx)
 
 	err = tx.Commit()
@@ -98,6 +98,7 @@ func ProcessValue(value string) {
 		log.Println(data)
 	}
 	json.Unmarshal([]byte(value), &data)
+	InsertRoom(data.Room)
 	data.RoomId = ReadRoom(data.Room)
 	if debug {
 		log.Println(value)
