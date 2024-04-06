@@ -1,0 +1,22 @@
+name: Build RoomObserverMQGo
+on: [workflow_dispatch,push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Trigger build workflow
+        env:
+          ACTIONS_KEY: ${{ secrets.ACTIONS_KEY }}
+        uses: actions/github-script@v7
+        id: my-script
+        with:
+          github-token: ${{ secrets.ACTIONS_KEY }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'alexanderjuhn',
+              repo: 'gha-workflows',
+              workflow_id: 'build_roomobservermqgo.yml',
+              ref: 'main',
+            });
